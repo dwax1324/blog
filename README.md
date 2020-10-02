@@ -22,12 +22,12 @@ strapi도 충분히 좋았지만
 strapi문제인지 몰라서 일단 공부도 할겸 nodejs로 바꾸었다.
 결과는 살짝 빨라진거 같다.
 
-![strapi](readme_srcs/speed-strapi.gif)
+![strapi](_imgs/speed-strapi.gif)
 
 
 로딩하는데 1~2초정도 걸림
 
-![strapi](readme_srcs/speed-node.gif)
+![strapi](_imgs/speed-node.gif)
 
 
 약간 빨라진거같다.(아닌가?)

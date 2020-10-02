@@ -1,0 +1,10 @@
+{
+  "type": "postgres",
+  "host": "blog",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "blogPostgres",
+  "entities": ["dist/src/entities/*.js"],
+  "migrations": ["dist/src/migrations/*.js"]
+}

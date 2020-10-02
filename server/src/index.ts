@@ -9,68 +9,59 @@ import { PostResolver } from './resolvers/post';
 import cors from 'cors';
 import { Post } from './entities/Post';
 import Redis from 'ioredis'
+import bodyParser from "body-parser"
+import "dotenv/config";
+import { __prod__ } from "../constants";
+import path from "path";
+//172.17.0.2
 
 
 
 
 // async main꼭 써줘야 await쓸 수 있다. 안그럼 ts에서 top-level promise error 발생 -1
-const port = 4000;
 const main = async() => {
-  const app = express();
-
-  //redis 
-
-  const RedisStore = connectRedis(session);
-  const redis = new Redis("127.0.0.1:6379");
-
-  
-  // app.use((req, res, next)=> {
-  //   res.setHeader('Access-Control-Allow-Origin', '*');
-  //   res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
-  //   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  //   if (req.method === 'OPTIONS') {
-  //     return res.sendStatus(200);
-  //   }
-  //   next();
-  // })
-  app.set('trust proxy', 1);
-
-  app.use(
-    cors({
-      credentials: true,
-      origin: "http://localhost:3000"
-    }), 
-    session({
-      name: "qid",
-      secret: "qrqwrqrqwr",
-      resave: false,
-      saveUninitialized: false,
-      store: new RedisStore({ 
-        client: redis,
-        disableTouch: true,
-      }),
-      cookie: {
-        sameSite: true,
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10years
-        httpOnly: true,
-        secure:false
-      },
-    })
-  );
-  
 
 
   const conn = await createConnection({
     type: "postgres",
-    url: "postgresql://postgres:postgres@localhost:5432/blogDB2",
+    url: process.env.DATABASE_URL,
     entities: [Post],
     logging: true,
-    synchronize: true,
+    synchronize: false,
+    migrations: [path.join(__dirname, "./migrations/*")],
   });
 
+  const app = express();
+
+  const RedisStore = connectRedis(session);
+  const redis = new Redis(process.env.REDIS_URL);
+
+ 
+  app.set("trust proxy", 1);
+
+  app.use(
+    session({
+      name: process.env.SESSION_NAME,
+      secret: process.env.SESSION_SECRET as string,
+      resave: false,
+      saveUninitialized: false,
+      store: new RedisStore({
+        client: redis,
+        disableTouch: true,
+      }),
+      cookie: {
+        sameSite: "lax",
+        maxAge: 1000 * 60 * 60 * 24, // 1day
+        httpOnly: true,
+        secure: __prod__,
+        domain: __prod__ ? ".woojong.xyz" : undefined,
+      },
+    })
+  );
 
 
+
+  // await conn.runMigrations();
 
   //await -2
   const apolloServer = new ApolloServer({
@@ -78,26 +69,23 @@ const main = async() => {
       resolvers: [HelloResolver, PostResolver],
       validate: false,
     }),
-     context: ({ req, res }) => ({
+    context: ({ req, res }) => ({
       req,
       res,
       redis,
     }),
   });
-
-
   apolloServer.applyMiddleware({
     app,
-    cors: false
+    cors: { origin: process.env.CORS_ORIGIN, credentials: true },
   });
-
-
-  app.listen(port, () => {
-    console.log("listening from " + port);
+  app.listen(process.env.PORT, () => {
+    console.log("listening from " + process.env.PORT);
   });
-    // 라우트 / 렌더링
+  // 라우트 / 렌더링
 }
 
 
-
-main().catch((err) => console.error(err));
+main().catch((err) => {
+  console.error(err);
+});
