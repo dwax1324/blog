@@ -56,3 +56,37 @@ express-js, mongoDB, react
 typescript, aws ec2, 도커, 아폴로, grapql, nestjs
 
 
+*2020-10-02*
+---
+
+**대규모 변경**
+javascript -> typescript,
+create-react-app-> nextjs
+restful api -> graphql, apollo,typegraphql
+strapi,heroku,mongodb -> vps(vultr),docker,dokku,express,postgresql,typeorm,redis
+
+
+가상서버에서 도커를 사용하면서 서버 구축을하니 확실히 빨라졌다.
+vultr도 서울리전이 있어서 빠르지만 요금이 얼마나 나올지는 아직 잘 모르겠다.
+
+계속 달려왔는데  이제 천천히 포스팅도 하면서 업데이트 하려고 한다.
+
+workflow나 framwork같은건  
+
+[ben awad](https://www.youtube.com/watch?v=I6ypD7qv3Z8&ab_channel=BenAwad)
+를 보면서 많이 배웠다.
+
+덕분에 풀스택에 대한 감을 잡을 수 있었다.
+
+ckeditor를 어떻게 써야할까 고민하던 중에 웹팩만져야한다고 해서
+시간이 너무 길어질까봐 일단은 마크다운으로 포스팅하려고한다.
+
+![speed3](./_imgs/spped3)
+확실히 속도도 예전에 비하면 굉장히 빨라졌다!
+
+관리자인증? 같은 구현도 해놨으며 인증시에 편집,삭제,만들기가 가능하다.
+
+
+추가할 것:
+
+pagination, search, tags , about 
