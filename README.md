@@ -62,9 +62,13 @@ typescript, aws ec2, 도커, 아폴로, grapql, nestjs
 
 **대규모 변경**
 javascript -> typescript,
+
 create-react-app-> nextjs
+
 restful api -> graphql, apollo,typegraphql
+
 strapi,heroku,mongodb -> vps(vultr),docker,dokku,express,postgresql,typeorm,redis
+
 
 
 가상서버에서 도커를 사용하면서 서버 구축을하니 확실히 빨라졌다.
