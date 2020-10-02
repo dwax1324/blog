@@ -16,7 +16,6 @@ exports.PostResolver = void 0;
 const Post_1 = require("../entities/Post");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-require("dotenv/config");
 let postInput = class postInput {
 };
 __decorate([
@@ -50,7 +49,7 @@ let PostResolver = class PostResolver {
         const createdAt = post === null || post === void 0 ? void 0 : post.createdAt;
         const updatedAt = new Date();
         if (!post)
-            throw new Error("그런 포스트는 존재하지 않아!");
+            throw new Error('그런 포스트는 존재하지 않아!');
         Object.assign(post, Object.assign(Object.assign({}, input), { createdAt: createdAt, updatedAt: updatedAt }));
         await (post === null || post === void 0 ? void 0 : post.save());
         return post;
@@ -58,30 +57,27 @@ let PostResolver = class PostResolver {
     async deletePost(id) {
         const post = await Post_1.Post.findOne({ where: { id } });
         if (!post)
-            throw new Error("그런 포스트는 존재하지 않아!");
+            throw new Error('그런 포스트는 존재하지 않아!');
         await post.remove();
         return true;
     }
     async login(id, password, { req }) {
-        const ID = process.env.USER_ID;
-        const PSWD = process.env.PASSWORD;
-        if (id === ID && password === PSWD) {
-            req.session.userId = ID;
+        if (id === "dwax1324" && password === "qeszc24$") {
+            req.session.userId = 'dwax1324';
             return true;
         }
         else
             return false;
     }
     async me({ req }) {
-        const ID = process.env.USER_ID;
-        if (req.session.userId === ID)
+        if (req.session.userId === "dwax1324")
             return true;
         else
             return false;
     }
     async logout({ req, res }) {
         return new Promise((resolve) => req.session.destroy((err) => {
-            res.clearCookie(process.env.SESSION_NAME);
+            res.clearCookie("sid");
             if (err) {
                 resolve(false);
                 return;
@@ -92,7 +88,7 @@ let PostResolver = class PostResolver {
 };
 __decorate([
     type_graphql_1.Mutation(() => Post_1.Post),
-    __param(0, type_graphql_1.Arg("input")),
+    __param(0, type_graphql_1.Arg('input')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [postInput]),
     __metadata("design:returntype", Promise)
@@ -112,22 +108,22 @@ __decorate([
 ], PostResolver.prototype, "posts", null);
 __decorate([
     type_graphql_1.Mutation(() => Post_1.Post),
-    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
-    __param(1, type_graphql_1.Arg("input", () => postInput)),
+    __param(0, type_graphql_1.Arg('id', () => type_graphql_1.Int)),
+    __param(1, type_graphql_1.Arg('input', () => postInput)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, postInput]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "updatePost", null);
 __decorate([
     type_graphql_1.Mutation(() => Boolean),
-    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
+    __param(0, type_graphql_1.Arg('id', () => type_graphql_1.Int)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "deletePost", null);
 __decorate([
     type_graphql_1.Mutation(() => Boolean),
-    __param(0, type_graphql_1.Arg("id", () => String)),
+    __param(0, type_graphql_1.Arg('id', () => String)),
     __param(1, type_graphql_1.Arg("password", () => String)),
     __param(2, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
