@@ -13,7 +13,6 @@ import bodyParser from "body-parser"
 import "dotenv/config";
 import { __prod__ } from "../constants";
 import path from "path";
-//172.17.0.2
 
 
 
