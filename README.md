@@ -97,3 +97,8 @@ ckeditor를 어떻게 써야할까 고민하던 중에 웹팩만져야한다고 
 추가할 것:
 
 pagination, search, tags , about ,footer, 
+
+
+*2020-10-03*
+---
+헬멧, 로고추가
