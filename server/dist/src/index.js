@@ -15,7 +15,6 @@ const tagpost_1 = require("./resolvers/tagpost");
 const Post_1 = require("./entities/Post");
 const Tag_1 = require("./entities/Tag");
 const ioredis_1 = __importDefault(require("ioredis"));
-const body_parser_1 = __importDefault(require("body-parser"));
 require("dotenv/config");
 const constants_1 = require("../constants");
 require("reflect-metadata");
@@ -31,7 +30,6 @@ const main = async () => {
         synchronize: true,
     });
     const app = express_1.default();
-    app.use(body_parser_1.default());
     const RedisStore = connect_redis_1.default(express_session_1.default);
     const redis = new ioredis_1.default(process.env.REDIS_URL);
     app.set("trust proxy", 1);

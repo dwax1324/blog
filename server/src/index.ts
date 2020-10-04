@@ -34,14 +34,14 @@ const main = async () => {
     // migrations: [path.join(__dirname, "./migrations/*")],
   })
 
+
   const app = express()
 
-  app.use(bodyParser())
   const RedisStore = connectRedis(session)
   const redis = new Redis(process.env.REDIS_URL)
 
   app.set("trust proxy", 1)
-
+ 
   app.use(
     session({
       name: process.env.SESSION_NAME,
@@ -62,7 +62,6 @@ const main = async () => {
     })
   )
 
-  // await conn.runMigrations();
 
   //await -2
   const apolloServer = new ApolloServer({
