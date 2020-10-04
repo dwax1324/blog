@@ -24,7 +24,6 @@ export class PostResolver extends BaseEntity {
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
     if (id === "dwax1324" && password === "1234") {
-      console.log(process.env.userId)
       req.session.userId = "dwax1324"
       return true
     } else return false

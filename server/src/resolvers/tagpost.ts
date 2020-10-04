@@ -40,6 +40,13 @@ export class TagPostResolver {
     return post
   }
 
+  // read one tag
+  @Query(() => Tag, { nullable: true })
+  async tag(@Arg("id", () => Int) id: number): Promise<Tag | undefined> {
+    const tag = await Tag.findOne({ id: id })
+    return tag
+  }
+
   // update post
   @Mutation(() => Post)
   async updatePost(

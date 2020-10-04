@@ -41,6 +41,10 @@ let TagPostResolver = class TagPostResolver {
         const post = await Post_1.Post.findOne({ id: id });
         return post;
     }
+    async tag(id) {
+        const tag = await Tag_1.Tag.findOne({ id: id });
+        return tag;
+    }
     async updatePost(id, input) {
         const post = await Post_1.Post.findOne({ id: id });
         const createdAt = post === null || post === void 0 ? void 0 : post.createdAt;
@@ -100,6 +104,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], TagPostResolver.prototype, "post", null);
+__decorate([
+    type_graphql_1.Query(() => Tag_1.Tag, { nullable: true }),
+    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], TagPostResolver.prototype, "tag", null);
 __decorate([
     type_graphql_1.Mutation(() => Post_1.Post),
     __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
