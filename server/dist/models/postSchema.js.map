@@ -1,0 +1,1 @@
+{"version":3,"file":"postSchema.js","sourceRoot":"","sources":["../../models/postSchema.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;AAAA,qDAAoD;AAUpD,MAAM,UAAU,GAAG,IAAI,kBAAQ,CAAC,MAAM,CAAC;IACrC,GAAG,EAAE,kBAAQ,CAAC,MAAM,CAAC,KAAK,CAAC,QAAQ;IACnC,KAAK,EAAE,MAAM;IACb,WAAW,EAAE,MAAM;CACpB,CAAC,CAAA;AAEF,kBAAe,gBAAK,CAAY,MAAM,EAAE,UAAU,CAAC,CAAA"}

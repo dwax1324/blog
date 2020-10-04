@@ -10,22 +10,28 @@ const express_session_1 = __importDefault(require("express-session"));
 const connect_redis_1 = __importDefault(require("connect-redis"));
 const type_graphql_1 = require("type-graphql");
 const hello_1 = require("./resolvers/hello");
-const post_1 = require("./resolvers/post");
+const auth_1 = require("./resolvers/auth");
+const tagpost_1 = require("./resolvers/tagpost");
 const Post_1 = require("./entities/Post");
+const Tag_1 = require("./entities/Tag");
 const ioredis_1 = __importDefault(require("ioredis"));
+const body_parser_1 = __importDefault(require("body-parser"));
 require("dotenv/config");
 const constants_1 = require("../constants");
-const path_1 = __importDefault(require("path"));
+require("reflect-metadata");
+const TagPost_1 = require("./entities/TagPost");
+const tagsLoader_1 = require("./utils/tagsLoader");
+const postsLoader_1 = require("./utils/postsLoader");
 const main = async () => {
     const conn = await typeorm_1.createConnection({
         type: "postgres",
         url: process.env.DATABASE_URL,
-        entities: [Post_1.Post],
+        entities: [Post_1.Post, Tag_1.Tag, TagPost_1.TagPost],
         logging: true,
-        synchronize: false,
-        migrations: [path_1.default.join(__dirname, "./migrations/*")],
+        synchronize: true,
     });
     const app = express_1.default();
+    app.use(body_parser_1.default());
     const RedisStore = connect_redis_1.default(express_session_1.default);
     const redis = new ioredis_1.default(process.env.REDIS_URL);
     app.set("trust proxy", 1);
@@ -48,13 +54,15 @@ const main = async () => {
     }));
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: await type_graphql_1.buildSchema({
-            resolvers: [hello_1.HelloResolver, post_1.PostResolver],
+            resolvers: [hello_1.HelloResolver, auth_1.PostResolver, tagpost_1.TagPostResolver],
             validate: false,
         }),
         context: ({ req, res }) => ({
             req,
             res,
             redis,
+            tagsLoader: tagsLoader_1.createTagsLoader(),
+            postsLoader: postsLoader_1.createPostsLoader(),
         }),
     });
     apolloServer.applyMiddleware({

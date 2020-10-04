@@ -8,14 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Post = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const Tag_1 = require("./Tag");
+const TagPost_1 = require("./TagPost");
 let Post = class Post extends typeorm_1.BaseEntity {
+    async tags({ tagsLoader }) {
+        return tagsLoader.load(this.id);
+    }
 };
 __decorate([
-    type_graphql_1.Field(),
+    type_graphql_1.Field(() => type_graphql_1.ID),
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], Post.prototype, "id", void 0);
@@ -30,12 +38,23 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "description", void 0);
 __decorate([
-    type_graphql_1.Field(() => String),
+    typeorm_1.OneToMany(() => TagPost_1.TagPost, (tp) => tp.post),
+    __metadata("design:type", Promise)
+], Post.prototype, "tagConnection", void 0);
+__decorate([
+    type_graphql_1.Field(() => [Tag_1.Tag], { nullable: true }),
+    __param(0, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], Post.prototype, "tags", null);
+__decorate([
+    type_graphql_1.Field(() => Date),
     typeorm_1.CreateDateColumn(),
     __metadata("design:type", Date)
 ], Post.prototype, "createdAt", void 0);
 __decorate([
-    type_graphql_1.Field(() => String),
+    type_graphql_1.Field(() => Date),
     typeorm_1.CreateDateColumn(),
     __metadata("design:type", Date)
 ], Post.prototype, "updatedAt", void 0);

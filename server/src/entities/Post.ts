@@ -1,33 +1,59 @@
-import {Field,Int,ObjectType} from 'type-graphql'
+import MyContext from "src/types/types"
+import { Ctx, Field, ID, Int, ObjectType } from "type-graphql"
 import {
-  Entity,
   BaseEntity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-} from "typeorm";
+
+  Entity,
+
+
+
+
+
+
+  OneToMany,
+  PrimaryColumn,
+  PrimaryGeneratedColumn
+} from "typeorm"
+import { Tag } from "./Tag"
+import { TagPost } from "./TagPost"
+// import { TagPost } from "./TagPost"
+
 
 
 @ObjectType()
 @Entity()
 export class Post extends BaseEntity {
-  @Field()
+  @Field(()=>ID)
   @PrimaryGeneratedColumn()
-  id!: number;
+  id: number
 
   @Field()
   @Column()
-  title: string;
+  title!: string
 
   @Field()
   @Column()
-  description: string;
+  description: string
 
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date;
+  // @ManyToMany((type) => Tag)
+  // @JoinTable({name:"tag-post"})
+  // tags: Tag[]
 
-  @Field(() => String)
+  @OneToMany(() => TagPost, (tp) => tp.post)
+  tagConnection: Promise<TagPost[]>
+
+  @Field(() => [Tag] ,{nullable:true})
+  async tags(@Ctx() { tagsLoader }: MyContext): Promise<Tag[]> {
+    return tagsLoader.load(this.id) as any
+  }
+
+  @Field(() => Date)
   @CreateDateColumn()
-  updatedAt: Date;
+  createdAt: Date
+
+  @Field(() => Date)
+  @CreateDateColumn()
+  updatedAt: Date
 }
