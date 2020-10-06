@@ -38,6 +38,11 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "description", void 0);
 __decorate([
+    type_graphql_1.Field(),
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], Post.prototype, "thumbnail", void 0);
+__decorate([
     typeorm_1.OneToMany(() => TagPost_1.TagPost, (tp) => tp.post),
     __metadata("design:type", Promise)
 ], Post.prototype, "tagConnection", void 0);

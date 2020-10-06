@@ -18,6 +18,8 @@ class postInput {
   title: string
   @Field()
   description: string
+  @Field()
+  thumbnail: string
 }
 
 @Resolver()
@@ -62,6 +64,7 @@ export class TagPostResolver {
     Object.assign(post, {
       title: input.title,
       description: input.description,
+      thumbnail: input.thumbnail,
       createdAt: createdAt,
       updatedAt: updatedAt,
     })

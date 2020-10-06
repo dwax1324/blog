@@ -4,16 +4,8 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
-
   Entity,
-
-
-
-
-
-
   OneToMany,
-  PrimaryColumn,
   PrimaryGeneratedColumn
 } from "typeorm"
 import { Tag } from "./Tag"
@@ -36,6 +28,10 @@ export class Post extends BaseEntity {
   @Field()
   @Column()
   description: string
+
+  @Field()
+  @Column({ nullable: true })
+  thumbnail: string
 
   // @ManyToMany((type) => Tag)
   // @JoinTable({name:"tag-post"})

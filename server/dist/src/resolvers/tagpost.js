@@ -27,6 +27,10 @@ __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
 ], postInput.prototype, "description", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], postInput.prototype, "thumbnail", void 0);
 postInput = __decorate([
     type_graphql_1.InputType()
 ], postInput);
@@ -54,6 +58,7 @@ let TagPostResolver = class TagPostResolver {
         Object.assign(post, {
             title: input.title,
             description: input.description,
+            thumbnail: input.thumbnail,
             createdAt: createdAt,
             updatedAt: updatedAt,
         });
