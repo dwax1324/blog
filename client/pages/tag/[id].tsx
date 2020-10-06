@@ -79,16 +79,17 @@ const Home: React.FC<{}> = () => {
                         >
                             <NextLink href="/:id" as={`/post/${post.id}`}>
                                 <Link >
-                                    <Image objectFit="cover" src={post.thumbnail} style={{ borderRadius: "50%", maxWidth: "100px", height: "100px" }} alt="thumnail" />
+                                    <Image objectFit="cover" src={post.thumbnail}
+                                        style={{ borderRadius: "50%", maxWidth: "100px", height: "100px", border: '2px solid #333' }} alt="thumnail" />
                                     <Box className="editTitle">
                                         <Text>{post.title}</Text>
                                     </Box>
                                 </Link>
                             </NextLink>
-                            <Box cursor="pointer" >
+                            <Box userSelect="none">
                                 <Text>{post.createdAt.slice(0, 10)}</Text>
                             </Box>
-                            <Box w="80%" justifyContent="center" display="flex" flexWrap="wrap">
+                            <Box w="100%" justifyContent="center" display="flex" flexWrap="wrap">
                                 {!post.tags ? " " : (post.tags.map((t) =>
                                     <NextLink href="/:id" as={`/tag/${t.id}`}>
                                         <Link>
