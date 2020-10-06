@@ -1,0 +1,15 @@
+query Tags {
+  tags {
+    id
+    text
+    postsLength
+     posts{
+     id
+			title
+      description
+      createdAt
+      updatedAt
+
+    }
+  }
+}

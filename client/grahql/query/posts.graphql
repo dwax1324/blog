@@ -1,0 +1,9 @@
+query Posts {
+  posts {
+    ...RegularDetails
+    tags {
+      id
+      text
+    }
+  }
+}

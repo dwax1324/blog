@@ -1,0 +1,5 @@
+mutation CreatePost($input: postInput!) {
+  createPost(input: $input) {
+    ...RegularDetails
+  }
+}

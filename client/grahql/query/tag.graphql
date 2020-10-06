@@ -1,0 +1,19 @@
+query Tag($id:Int!){
+  tag(id:$id){
+    postsLength
+		id
+    text
+    posts{
+      id
+      title
+      description
+      updatedAt
+      createdAt
+      tags{
+        id
+        text
+      }
+      thumbnail
+    }
+  }
+}

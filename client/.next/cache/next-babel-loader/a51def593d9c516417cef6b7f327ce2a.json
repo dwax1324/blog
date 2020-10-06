@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { usePostQuery } from \"../generated/graphql\";\nimport { useGetIntId } from \"./useGetIntId\";\nexport const useGetPostFromUrl = () => {\n  const intId = useGetIntId();\n  return usePostQuery({\n    skip: intId === -1,\n    variables: {\n      id: intId\n    }\n  });\n};","map":null,"metadata":{},"sourceType":"module"}

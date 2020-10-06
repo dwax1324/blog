@@ -1,0 +1,5 @@
+mutation UpdatePost($id: Int!, $input: postInput!) {
+  updatePost(id: $id, input: $input) {
+    ...RegularDetails
+  }
+}

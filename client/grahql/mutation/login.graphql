@@ -1,0 +1,3 @@
+mutation Login($id: String!, $password: String!) {
+  login(id: $id, password: $password)
+}

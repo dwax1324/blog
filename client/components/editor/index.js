@@ -1,0 +1,16 @@
+// components/editor/index.js
+import { Component } from "react";
+import CKEditor from "ckeditor4-react";
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <h2>Using CKEditor 4 in React</h2>
+        <CKEditor data="<p>Hello from CKEditor 4!</p>" />
+      </div>
+    );
+  }
+}
+
+export default App;

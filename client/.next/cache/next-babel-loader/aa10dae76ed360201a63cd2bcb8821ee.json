@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { useRouter } from \"next/router\";\nexport const useGetIntId = () => {\n  const router = useRouter();\n  const intId = typeof router.query.id === \"string\" ? parseInt(router.query.id) : -1;\n  return intId;\n};","map":null,"metadata":{},"sourceType":"module"}

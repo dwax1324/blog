@@ -1,0 +1,13 @@
+mutation CreateTag($text: String!) {
+  createTag(text: $text) {
+    id
+    text
+    posts {
+      id
+      title
+      description
+      updatedAt
+      createdAt
+    }
+  }
+}

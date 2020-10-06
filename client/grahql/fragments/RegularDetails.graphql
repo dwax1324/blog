@@ -1,0 +1,9 @@
+fragment RegularDetails on Post {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+    thumbnail
+  
+}

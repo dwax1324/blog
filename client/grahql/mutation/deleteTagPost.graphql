@@ -1,0 +1,3 @@
+mutation DeleteTagPost($postId:Int! , $tagId:Int!){
+  deleteTagPost(postId:$postId, tagId:$tagId)
+}

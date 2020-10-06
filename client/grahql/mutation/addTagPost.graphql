@@ -1,0 +1,3 @@
+mutation AddTagPost($postId: Int!, $tagId: Int!) {
+  addTagPost(postId: $postId, tagId: $tagId)
+}
