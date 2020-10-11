@@ -2,7 +2,7 @@ import React from "react"
 import { useMeQuery, usePostsQuery } from "../generated/graphql"
 import NextLink from "next/link"
 import { withApollo } from "../utils/withApollo"
-import { Box, Text, Image, Link } from "@chakra-ui/core"
+import { Box,  Image, Link } from "@chakra-ui/core"
 import EditDeleteButtons from "../components/EditDeleteButtons"
 
 interface homeProps { }
@@ -24,9 +24,6 @@ const Home: React.FC<{}> = () => {
       <style jsx global>{`
 
         @media screen and (max-width: 768px) { 
-          .index-image{
-              width: 90% !important;
-          }
           .index-card{
             width:100% !important;
           }
@@ -39,7 +36,26 @@ const Home: React.FC<{}> = () => {
         alignItems="center"
         flexDirection="column"
       >
-        <Image className="index-image" src="/main.jpg" w="75%" h="75%" mt="50px" mb="50px" maxW="1000px" />
+        <Box
+          style={{opacity:.9}}
+          backgroundAttachment="fixed"
+          backgroundSize="cover"
+          backgroundPosition="center"
+          backgroundRepeat="no-repeat"
+          backgroundImage="url('/main.jpg')"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"        
+          w="100vw" h="100vh"
+          mb="300px"
+          color="#999 ! important"
+          userSelect="none"
+        >
+          <Box fontSize="50px" style={{opacity:1}}>
+            welcome to <br/>
+            wooo's blog
+          </Box>
+        </Box>
         <Box
           w="75%"
           h="auto"
@@ -72,24 +88,33 @@ const Home: React.FC<{}> = () => {
               position="relative"
               textAlign="center"
               maxWidth="550px"
+              backgroundImage="url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcScjkXFOUR2TU83Bi8evmfZNXOMDmiPbbGCkA&usqp=CAU')"
+              backgroundSize="100%"
+              color="white !important"
+              textShadow="1px 1px 1px #333"
             >
               <NextLink href="/:id" as={`/post/${post.id}`}>
                 <Link >
-                  <Image objectFit="cover" src={post.thumbnail}
-                    style={{ borderRadius: "50%", width: "100px", height: "100px", border: '2px solid #333' }} alt="thumnail" />
-                  <Box className="editTitle">
-                    <Text>{post.title}</Text>
+                  <Box w="100%" d="flex" justifyContent="center">
+                    <Box style={{ border: '2px solid #000', width: "100px", height: "100px", borderRadius: "50%", padding: 0, margin: 0 }} boxShadow="2px 2px 5px rgba(0,0,0,0.5)">
+                      <Image objectFit="cover" src={post.thumbnail}
+                    
+                        style={{ borderRadius: "50%", width: "96px", height: "96px" }} alt={undefined} />
+                    </Box>
+                  </Box>
+                  <Box className="editTitle" mt="20px">
+                    {post.title}
                   </Box>
                 </Link>
               </NextLink>
-              <Box userSelect="none" >
-                <Text>{post.createdAt.slice(0, 10)}</Text>
+              <Box userSelect="none"  p="20px" fontSize="8px">
+                {post.createdAt.slice(0, 10)}
               </Box>
-              <Box w="100%" justifyContent="center" display="flex" flexWrap="wrap">
+              <Box w="100%" justifyContent="center" display="flex" flexWrap="wrap" fontSize="8px">
                 {!post.tags ? " " : (post.tags.map((t) =>
                   <NextLink href="/:id" as={`/tag/${t.id}`}>
                     <Link>
-                      <Box textAlign="center" border="1px solid #333" borderRadius="5px" m="5px" p="5px">
+                      <Box textAlign="center" border="1px solid #ccc" borderRadius="5px" m="5px" p="5px">
                         {t.text}
                       </Box>
                     </Link>

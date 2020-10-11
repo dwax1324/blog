@@ -1,9 +1,8 @@
-import { Box, Link, Text } from "@chakra-ui/core"
-import React, { useEffect } from "react"
-import NavBar from "../components/NavBar"
+import { Box, Link } from "@chakra-ui/core"
+import NextLink from "next/link"
+import React from "react"
 import { useTagsQuery } from "../generated/graphql"
 import { withApollo } from "../utils/withApollo"
-import NextLink from "next/link"
 
 interface tagsProps { }
 
@@ -22,7 +21,9 @@ const tags: React.FC<{}> = () => {
             {data?.tags?.map((t) => (
               <NextLink href="/:tagId" as={`/tag/${[t.id]}`}>
                 <Link>
-                  <Text>{t.text}({t.postsLength})</Text>
+                  <Box>
+                  {t.text}({t.postsLength})
+                  </Box>
                 </Link>
               </NextLink>
             ))}

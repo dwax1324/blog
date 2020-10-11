@@ -56,7 +56,6 @@ const NavBar: React.FC<{}> = () => {
         }
       `}</style>
       <Box
-        p={"absolute"}
         w={"100vw"}
         h={"80px"}
         backgroundColor={"#333"}

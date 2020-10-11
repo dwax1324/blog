@@ -4,8 +4,9 @@ import SyntaxHighlighter from "react-syntax-highlighter"
 import dark from "react-syntax-highlighter/dist/cjs/styles/hljs/a11y-dark"
 
 
-export const handleLink = (props) => {
+export const handleLink =  (props) => {
     const href = useRef(null)
+    let val= props?.children[0]?.props.value
     const handleEnter = () => {
         href.current.style.color = "#090"
     }
@@ -13,9 +14,9 @@ export const handleLink = (props) => {
         href.current.style.color = "#00c"
     }
     return (
-        <span ref={href} style={{ color: '#00c' }}>
+        <span ref={href} style={{ textDecoration:"underline" }}>
             <a href={`${props.href}`} target="_blank">
-                {props.href}
+                {val}
             </a>
         </span>
     )

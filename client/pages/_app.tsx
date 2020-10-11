@@ -7,7 +7,7 @@ import "../styles/globals.css"
 import customTheme from "../utils/theme"
 
 function MyApp({ Component, pageProps }) {
-  const [dark, setDark] = useState("light")
+  const [dark, setDark] = useState("dark")
   const color = useRef(null)
   useEffect(() => {
     if (localStorage.getItem("sid") === null) {
@@ -72,9 +72,9 @@ function MyApp({ Component, pageProps }) {
       >
         <NavBar />
         <style jsx global>{`
-@import url('https://fonts.googleapis.com/css2?family=Stylish&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap');  
        body{
-        font-family: 'Stylish', sans-serif !important;
+       font-family: 'Sunflower', sans-serif;
        }
 }
 

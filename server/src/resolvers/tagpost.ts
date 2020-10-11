@@ -27,7 +27,11 @@ export class TagPostResolver {
   //read all posts
   @Query(() => [Post])
   async posts() {
-    return Post.find()
+    return Post.find({
+      order: {
+        createdAt:"DESC"
+      }
+    })
   }
   //read all tags
   @Query(() => [Tag])

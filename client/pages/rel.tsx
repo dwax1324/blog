@@ -1,5 +1,5 @@
-import { Box, Button, Input, Text } from "@chakra-ui/core"
-import React, { useEffect, useRef } from "react"
+import { Box, Button, Input, Link, Text } from "@chakra-ui/core"
+import React, { useEffect, useRef, useState } from "react"
 import NavBar from "../components/NavBar"
 import { useAddTagPostMutation, useCreateTagMutation, useDeleteTagMutation, useDeleteTagPostMutation, usePostsLazyQuery, usePostsQuery, useTagsQuery } from "../generated/graphql"
 import { withApollo } from "../utils/withApollo"
@@ -23,14 +23,19 @@ const rel: React.FC<{}> = () => {
     const postEl = useRef(null)
     const tagEl = useRef(null)
     const tagNameOrId = useRef(null)
+    const [postId, setPostId] = useState('')
+    const [postTitle, setPostTitle] = useState('')
+    const [tagId, setTagId] = useState('')
+    const [tagTitle,setTagTitle] = useState('')
 
     const handleSubmitAdd = async () => {
         // e.preventDefault();
-        const postId = parseInt(postEl.current.value)
-        const tagId = parseInt(tagEl.current.value)
+        const pi = parseInt(postId)
+        const ti = parseInt(tagId)
+        console.log(pi,ti)
         console.log(postId, tagId)
         const data = await add({
-            variables: { tagId: tagId, postId: postId }
+            variables: { tagId: ti, postId: pi }
         })
         alert('연결 성공!')
         router.reload();
@@ -38,11 +43,11 @@ const rel: React.FC<{}> = () => {
 
     const handleSubmitDelete = async () => {
         // e.preventDefault();
-        const postId = parseInt(postEl.current.value)
-        const tagId = parseInt(tagEl.current.value)
+        const pi = parseInt(postId)
+        const ti = parseInt(tagId)
         console.log(postId, tagId)
         await del({
-            variables: { tagId: tagId, postId: postId }
+            variables: { tagId: ti, postId: pi }
         })
         alert('삭제 성공!')
         router.reload();
@@ -66,33 +71,65 @@ const rel: React.FC<{}> = () => {
         alert('삭제완료')
 
     }
+
+    const handleShowPost = (e) => {
+        if (e.target.querySelectorAll('span')[1] === undefined) return;
+        setPostId(e.target.querySelectorAll('span')[1].innerText)
+        setPostTitle(e.target.querySelectorAll('span')[0].innerText)
+    }
+
+    const handleShowTag = (e) => {
+        if (e.target.querySelectorAll('span')[1] === undefined) return;
+        setTagId(e.target.querySelectorAll('span')[1].innerText)
+        setTagTitle(e.target.querySelectorAll('span')[0].innerText)
+
+    }
     return (
         <>
 
             <Box w="100vw" h="100vh" display="flex" justifyContent="center" alignItems='center'>
-                <Box>
-                    Relations
-                </Box>
-                <Box display="flex" flexDirection="column">
+                <Box display="flex" flexDirection="column" >
                     POSTID
-                            <Input name="postId" ref={postEl} type="text" />
+                            <Box w="200px" h="100px" ref={postEl} mt="20px"  >
+                        {postId}<br/>
+                        {postTitle}
+                        </Box>
                             TAGID
-                            <Input name="tagId" ref={tagEl} type="text" />
+                            <Box w="200px" h="100px" ref={tagEl} >
+                        {tagId}<br />
+                        {tagTitle}
+                        </Box>
 
                     <Button variantColor="teal" onClick={handleSubmitAdd} mt="50px">add!</Button>
                     <Button variantColor="red" onClick={handleSubmitDelete} mt="20px">delete!</Button>
                 </Box>
-                <Box w="400px" h="400px" border="1px solid black" display="flex" justifyContent="center" alignItems="center">
-                    <Box>
+                <Box w="400px" h="400px" border="1px solid black" display="flex" justifyContent="center"  overflow="auto">
+                    <Box >
                         {posts?.data?.posts?.map((t) => (
-                            <Text>{t.title}(id:{t.id})[{t?.tags?.map((t) => t.text + ',')}]</Text>
+                                <Link onClick={handleShowPost}>
+                            <Box border="1px solid black" p="40px">
+                                    <span style={{pointerEvents:"none"}}>
+                                            {t.title}
+                                    </span>
+                                    (id:
+                                    <span style={{pointerEvents:"none"}}>
+                                            {t.id}
+                                    </span>
+                                )<br />[{t?.tags?.map((t) => t.text + ',')}]
+                                </Box>
+                                </Link>
                         ))}
                     </Box>
                 </Box>
-                <Box w="400px" h="400px" border="1px solid black" display="flex" justifyContent="center" alignItems="center">
+                <Box w="400px" h="400px" border="1px solid black" display="flex" justifyContent="center"  overflow="auto">
                     <Box>
                         {data?.tags?.map((t) => (
-                            <Text>{t.text}(id:{t.id})</Text>
+                            <Link onClick={handleShowTag}>
+                            <Box border="1px solid black" p="40px">
+                                <span style={{pointerEvents:"none"}}>{t.text}</span>
+                                (id:<span style={{pointerEvents:"none"}}>{t.id}</span>)
+                                    </Box>
+                                </Link>
                         ))}
                     </Box>
                 </Box>
