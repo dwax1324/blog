@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useMeQuery, usePostsQuery } from "../generated/graphql"
 import NextLink from "next/link"
 import { withApollo } from "../utils/withApollo"
@@ -15,10 +15,33 @@ const Home: React.FC<{}> = () => {
   const { data, loading } = usePostsQuery()
   const me = useMeQuery()
 
+  let vh;
+  useEffect(() => {
+    vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  },)
   if (!loading && !data) {
     return <div>sorry, somthing happend</div>
   }
   const ME = me.data?.me
+
+  const renderGreeting = () => {
+    const hour = new Date().getHours()
+    let time = '';
+    if (hour >= 21 || hour <= 4) {
+      return '좋은 밤입니다.'
+    } else if (hour >=5 && hour <= 10) {
+      return '좋은 아침입니다.'
+    } if (hour >= 11 && hour <= 13) {
+      return '활기찬 점심 보내세요.'
+    } else if (hour >= 14 && hour <= 20) {
+      return '좋은 저녁입니다.'
+    }
+    
+  }
+
+
+
   return data?.posts ? (
     <>
       <style jsx global>{`
@@ -26,6 +49,9 @@ const Home: React.FC<{}> = () => {
         @media screen and (max-width: 768px) { 
           .index-card{
             width:100% !important;
+          }
+          .index-greeting{
+            font-size: 14px !important;
           }
         }
       `}</style>
@@ -37,7 +63,7 @@ const Home: React.FC<{}> = () => {
         flexDirection="column"
       >
         <Box
-          style={{opacity:.9}}
+          className="index-mainImg"
           backgroundAttachment="fixed"
           backgroundSize="cover"
           backgroundPosition="center"
@@ -46,14 +72,17 @@ const Home: React.FC<{}> = () => {
           display="flex"
           justifyContent="center"
           alignItems="center"        
-          w="100vw" h="100vh"
+          w="100vw"
           mb="300px"
           color="#999 ! important"
           userSelect="none"
+          style={{ height: 'calc(var(--vh,1vh)*100)', opacity: .9 }}
+          top="0px"
+          // position="absolute"
         >
-          <Box fontSize="50px" style={{opacity:1}}>
-            welcome to <br/>
-            wooo's blog
+          <Box className="index-greeting"
+            style={{ opacity: 1, fontSize:'2em' }}>
+              {renderGreeting()}
           </Box>
         </Box>
         <Box
@@ -93,7 +122,7 @@ const Home: React.FC<{}> = () => {
               color="white !important"
               textShadow="1px 1px 1px #333"
             >
-              <NextLink href="/:id" as={`/post/${post.id}`}>
+              <NextLink href={`/post/${post.id}`}>
                 <Link >
                   <Box w="100%" d="flex" justifyContent="center">
                     <Box style={{ border: '2px solid #000', width: "100px", height: "100px", borderRadius: "50%", padding: 0, margin: 0 }} boxShadow="2px 2px 5px rgba(0,0,0,0.5)">
@@ -112,7 +141,7 @@ const Home: React.FC<{}> = () => {
               </Box>
               <Box w="100%" justifyContent="center" display="flex" flexWrap="wrap" fontSize="8px">
                 {!post.tags ? " " : (post.tags.map((t) =>
-                  <NextLink href="/:id" as={`/tag/${t.id}`}>
+                  <NextLink href={`/tag/${t.id}`}>
                     <Link>
                       <Box textAlign="center" border="1px solid #ccc" borderRadius="5px" m="5px" p="5px">
                         {t.text}

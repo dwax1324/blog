@@ -25,7 +25,6 @@ const NavBar: React.FC<{}> = () => {
   }
 
   const handleRotate = () => {
-    console.log(1)
     img.current.style.transition = ".4s"
     img.current.style.transform = "rotate(20deg)"
     setTimeout(() => {
@@ -56,10 +55,13 @@ const NavBar: React.FC<{}> = () => {
         }
       `}</style>
       <Box
-        w={"100vw"}
-        h={"80px"}
-        backgroundColor={"#333"}
-        display={"flex"}
+        style={{opacity:.7 ,zIndex:12312421}}
+        className="navbar"
+        w="100vw"
+        h="60px"
+        backgroundColor="#111"
+        display="flex"
+        position="fixed"
       >
         <Box className="navbar-logo" style={{ cursor: "pointer", color: "#fff" }} m="auto">
           <NextLink href="/">

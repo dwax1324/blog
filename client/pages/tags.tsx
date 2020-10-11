@@ -19,7 +19,7 @@ const tags: React.FC<{}> = () => {
         <Box w="400px" h="400px" border="1px solid black" display="flex" justifyContent="center" alignItems="center">
           <Box>
             {data?.tags?.map((t) => (
-              <NextLink href="/:tagId" as={`/tag/${[t.id]}`}>
+              <NextLink href={`/tag/${t.id}`}>
                 <Link>
                   <Box>
                   {t.text}({t.postsLength})
@@ -33,4 +33,4 @@ const tags: React.FC<{}> = () => {
     </>
   )
 }
-export default withApollo({ ssr: true })(tags)
+export default withApollo({ ssr: false })(tags)

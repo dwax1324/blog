@@ -84,7 +84,7 @@ const Home: React.FC<{}> = () => {
               color="white !important"
               textShadow="1px 1px 1px #333"
             >
-              <NextLink href="/:id" as={`/post/${post.id}`}>
+              <NextLink href={`/post/${post.id}`}>
                 <Link >
                   <Box w="100%" d="flex" justifyContent="center">
                     <Box style={{ border: '2px solid #000', width: "100px", height: "100px", borderRadius: "50%", padding: 0, margin: 0 }} boxShadow="2px 2px 5px rgba(0,0,0,0.5)">
@@ -103,7 +103,7 @@ const Home: React.FC<{}> = () => {
               </Box>
               <Box w="100%" justifyContent="center" display="flex" flexWrap="wrap" fontSize="8px">
                 {!post.tags ? " " : (post.tags.map((t) =>
-                  <NextLink href="/:id" as={`/tag/${t.id}`}>
+                  <NextLink href={`/tag/${t.id}`}>
                     <Link>
                       <Box textAlign="center" border="1px solid #ccc" borderRadius="5px" m="5px" p="5px">
                         {t.text}

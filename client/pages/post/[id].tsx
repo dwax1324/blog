@@ -6,13 +6,14 @@ import { useMeQuery } from "../../generated/graphql"
 import { useGetPostFromUrl } from "../../utils/useGetPostFromUrl"
 import { withApollo } from "../../utils/withApollo"
 import { handleImage, handleCode, handleLink } from '../../utils/markdownRenderers'
+import Router from "next/router"
 interface postPagesProps<> { }
 
 const PostPage: React.FC<postPagesProps> = (props) => {
   const { data, loading } = useGetPostFromUrl()
   const me = useMeQuery()
   const Me = me.data?.me
-  console.log(data)
+  const router = Router
   return (
     <>
       <style jsx global>{`
@@ -58,7 +59,7 @@ const PostPage: React.FC<postPagesProps> = (props) => {
           >
             {data?.post?.title}
           </Box>
-          <Box className="postId-time" w="100%" textAlign="end" mt="50px">
+          <Box className="postId-time" w="100%" width="inherit" textAlign="end" mt="50px">
             {data?.post.createdAt.slice(0, 10)}
           </Box>
           <Box className="postId-description" p="20px" mt="5%" textAlign="left" w="768px" lineHeight="150%" >

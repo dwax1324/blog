@@ -12,4 +12,4 @@ const about: React.FC<{}> = () => {
     </Box>
   )
 }
-export default withApollo({ ssr: true })(about)
+export default withApollo({ ssr: false })(about)

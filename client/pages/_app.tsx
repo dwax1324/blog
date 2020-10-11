@@ -72,11 +72,20 @@ function MyApp({ Component, pageProps }) {
       >
         <NavBar />
         <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap');  
-       body{
-       font-family: 'Sunflower', sans-serif;
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&display=swap');
+       html,body{
+       font-family: 'Noto Serif KR', serif;
+       scroll-behavior: smooth;
        }
-}
+       ::-moz-selection { /* Code for Firefox */
+        color: red;
+        background: yellow;
+      }
+
+      ::selection {
+          background: #ccc;
+      }
+      }
 
       `}</style>
         <Component {...pageProps} />
