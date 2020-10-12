@@ -4,6 +4,7 @@ import NextLink from "next/link"
 import { withApollo } from "../utils/withApollo"
 import { Box,  Image, Link } from "@chakra-ui/core"
 import EditDeleteButtons from "../components/EditDeleteButtons"
+import imagesLoaded from 'imagesloaded'
 
 interface homeProps { }
 
@@ -27,33 +28,102 @@ const Home: React.FC<{}> = () => {
 
   const renderGreeting = () => {
     const hour = new Date().getHours()
-    let time = '';
-    if (hour >= 21 || hour <= 4) {
+    const minute = new Date().getMinutes()
+    const time = hour * 60 + minute;
+    if (time >= 1230 ||  time < 330) {
       return '좋은 밤입니다.'
-    } else if (hour >=5 && hour <= 10) {
+    } else if (time >=330 && time < 660) {
       return '좋은 아침입니다.'
-    } if (hour >= 11 && hour <= 13) {
+    } if (time >= 660 && time < 780) {
       return '활기찬 점심 보내세요.'
-    } else if (hour >= 14 && hour <= 20) {
+    } else if (time >= 780 && time < 1150) {
+      return '좋은 오후입니다.'
+    } else if (time >= 1150 && time < 1230) {
       return '좋은 저녁입니다.'
     }
-    
+    return '좋은 하루입니다.'
   }
+
+
+  
+  useEffect(() => {
+    setTimeout(() => {
+        let allItems
+        //
+    function resizeGridItem(item) {
+    console.log(item)
+    let grid = document.getElementsByClassName("grid")[0];
+    let rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+    let rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
+    let rowSpan = Math.ceil((item.querySelector('.content').getBoundingClientRect().height+rowGap)/(rowHeight+rowGap));
+    item.style.gridRowEnd = "span "+rowSpan;
+    }
+        allItems = document.getElementsByClassName("item");
+        //
+    function resizeAllGridItems(){
+      allItems = document.getElementsByClassName("item");
+      console.log(allItems[0])
+    for(let x=0;x<allItems.length;x++){
+        resizeGridItem(allItems[x]);
+    }
+  }
+    // for (let x = 0; x < allItems.length; x++) {
+    //   imagesLoaded(allItems[x], resizeInstance);
+    // }
+  function resizeInstance(instance){
+   let item = instance.elements[0];
+   resizeGridItem(item);
+  }
+  window.onload = resizeAllGridItems() as any
+  window.addEventListener("resize", resizeAllGridItems);      
+  }, 400);
+
+  },[])
 
 
 
   return data?.posts ? (
     <>
       <style jsx global>{`
-
-        @media screen and (max-width: 768px) { 
-          .index-card{
-            width:100% !important;
+        .index-card:hover{
+            opacity: 1 !important;
+            color:white;
+            transition: .5s;
+        }
+        .index-thumbnail{
+            opacity: 1 !important;
+            cursor:pointer;
+            transition:.2s;
+        }
+        .index-card:hover .index-thumbnail{
+            transform: translateY(-10px);
+        }
+        .index-post-title{
+            cursor:pointer;
+        }
+        .index-post-tag{
+          cursor:pointer;
+        }
+        .index-post-tag:hover{
+          text-decoration: underline;
+        }
+        @media screen and (max-width: 900px) { 
+          .grid{
+          grid-template-columns: repeat(auto-fill, 48%) !important;
           }
           .index-greeting{
             font-size: 14px !important;
           }
         }
+        @media screen and (max-width: 600px) { 
+          .grid{
+          grid-template-columns: repeat(auto-fill, 98%) !important;
+          }
+          .index-greeting{
+            font-size: 14px !important;
+          }
+        }
+
       `}</style>
       <Box
         className="index-container"
@@ -74,40 +144,37 @@ const Home: React.FC<{}> = () => {
           alignItems="center"        
           w="100vw"
           mb="300px"
-          color="#999 ! important"
           userSelect="none"
           style={{ height: 'calc(var(--vh,1vh)*100)', opacity: .9 }}
           top="0px"
           // position="absolute"
         >
           <Box className="index-greeting"
-            style={{ opacity: 1, fontSize:'2em' }}>
+            style={{ opacity: 1, fontSize:'2em' ,color:"#999"}}>
               {renderGreeting()}
           </Box>
         </Box>
         <Box
-          w="75%"
+          className="grid"
+          w="100%"
           h="auto"
+          maxW="1100px"
           style={{
-            display: "flex",
-            alignItems: "left",
-            justifyContent: "center",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            flexFlow: "row wrap",
-            alignContent: "flex-end",
+            display: "grid",
+            gridGap: "10px",
+            gridTemplateColumns: 'repeat(auto-fill,32%)',
+            gridAutoRows: "40px",
 
+            
           }}
         >
           {data.posts.map((post) => (
             <Box
-              className="index-card"
+              className="index-card item"
               borderRadius="5px"
-              border="1px solid grey"
-              shadow=" 1px 1px 1px grey"
-              boxShadow="2px 2px 5px rgba(0,0,0,0.5)"
-              p="20px"
-              w="45%"
+              borderTopLeftRadius="5px"
+              borderTopRightRadius="5px"
+              w="100%"
               h="55%"
               ml="3%"
               mb="40px"
@@ -116,41 +183,38 @@ const Home: React.FC<{}> = () => {
               flexDirection="column"
               position="relative"
               textAlign="center"
-              maxWidth="550px"
-              backgroundImage="url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcScjkXFOUR2TU83Bi8evmfZNXOMDmiPbbGCkA&usqp=CAU')"
               backgroundSize="100%"
-              color="white !important"
-              textShadow="1px 1px 1px #333"
+              
             >
+          <div className="content">
               <NextLink href={`/post/${post.id}`}>
-                <Link >
-                  <Box w="100%" d="flex" justifyContent="center">
-                    <Box style={{ border: '2px solid #000', width: "100px", height: "100px", borderRadius: "50%", padding: 0, margin: 0 }} boxShadow="2px 2px 5px rgba(0,0,0,0.5)">
-                      <Image objectFit="cover" src={post.thumbnail}
-                    
-                        style={{ borderRadius: "50%", width: "96px", height: "96px" }} alt={undefined} />
-                    </Box>
-                  </Box>
-                  <Box className="editTitle" mt="20px">
+                <Box>
+                  <img
+                    width="100%"
+                    height="100%"
+                    className="index-thumbnail"
+                    src={`${post.thumbnail}`}
+                    style={{borderRadius:"5px"}}
+                    />                   
+                  <Box className="index-post-title" textAlign="start"  fontSize="24px">
                     {post.title}
                   </Box>
-                </Link>
+                  </Box>
               </NextLink>
-              <Box userSelect="none"  p="20px" fontSize="8px">
-                {post.createdAt.slice(0, 10)}
-              </Box>
-              <Box w="100%" justifyContent="center" display="flex" flexWrap="wrap" fontSize="8px">
+              <Box w="100%" mt="5px" justifyContent="start" display="flex" flexWrap="wrap" fontSize="8px">
                 {!post.tags ? " " : (post.tags.map((t) =>
                   <NextLink href={`/tag/${t.id}`}>
-                    <Link>
-                      <Box textAlign="center" border="1px solid #ccc" borderRadius="5px" m="5px" p="5px">
+                      <Box className="index-post-tag" textAlign="center" border="1px solid #ccc" borderRadius="5px" m="5px" p="5px">
                         {t.text}
                       </Box>
-                    </Link>
                   </NextLink>
                 )
                 )}
               </Box>
+              <Box className="index-post-time" userSelect="none"  p="20px" fontSize="8px" textAlign="end">
+                {post.createdAt.slice(0, 10)}
+              </Box>
+            </div>
 
 
               {ME ? (
@@ -159,8 +223,10 @@ const Home: React.FC<{}> = () => {
                   ''
                 )}
             </Box>
+            
           ))}
         </Box>
+          
       </Box>
     </>
   ) : (

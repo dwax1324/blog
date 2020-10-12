@@ -73,18 +73,30 @@ function MyApp({ Component, pageProps }) {
         <NavBar />
         <style jsx global>{`
       @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&display=swap');
-       html,body{
+       a, article, aside, audio, blockquote, body, button, canvas, code, div, em, embed, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, html, i, iframe, img, input, ins, kbd, label, legend, li, main, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strong, summary, sup, table, tbody, td, textarea, time, ul, video 
+       {
        font-family: 'Noto Serif KR', serif;
        scroll-behavior: smooth;
+       margin:0;
+       padding:0;
        }
        ::-moz-selection { /* Code for Firefox */
-        color: red;
-        background: yellow;
+        background: #ccc;
       }
 
       ::selection {
           background: #ccc;
       }
+      body::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+body::-webkit-scrollbar-track {
+  background: black;        /* color of the tracking area */
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #333;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+}
       }
 
       `}</style>
