@@ -21,6 +21,7 @@ const NavBar: React.FC<{}> = () => {
   const [logout] = useLogoutMutation()
   const [keyValue, setKeyValue] = useState('');
   const [width, setWidth] = useState(1000);
+  const [opened, setOpened] = useState(false);
   const tagRef = useRef();
   const aboutRef = useRef();
   const searchRef = useRef();
@@ -28,7 +29,7 @@ const NavBar: React.FC<{}> = () => {
   const img = useRef(null)
   const boxButton = useRef();
   const router = Router
-  let opened = false;
+
   const handleClick = async () => {
     const data = await logout()
     router.reload()
@@ -41,32 +42,28 @@ const NavBar: React.FC<{}> = () => {
 
       img.current.style.transform = "rotate(0deg)"
     }, 400);
-
   }
-  let handleMenu = () => {
-    const box = boxRef.current.style;
+  const handleMenu = () => {
+    console.log(opened)
     if (!opened) {
-      opened = true;
-      box.transform = "translate3d(350px,0,0)"
-    } else {
-      opened = false;
-      box.transform= "translate3d(-350px,0,0)"
-    }
-
-    if (opened) {
+      setOpened(true)
+      boxRef.current.style.transform = "translate3d(350px,0,0)"
       boxButton.current.style.display = "none";
     } else {
+      setOpened(false)
+      boxRef.current.style.transform = "translate3d(-350px,0,0)"
       boxButton.current.style.display = "block";
     }
+
 
   }
 
   useEffect(() => {
+    
     window.addEventListener('resize', () => {
       setWidth(window.innerWidth);
     })
-    setWidth(window.innerWidth);
-    console.log(width)
+    setWidth(window.innerWidth)
   },)
   const handleKeyPress = async (e) => {
     e.preventDefault();
@@ -88,33 +85,59 @@ const NavBar: React.FC<{}> = () => {
 
 
   return (
-
     <>
       <style jsx global>{`
-        @media (max-width:780px){
-          .navbar-tags{
-          display:none !important;
-          }
-          .navbar-about{
-          display:none !important;
-          }
-          .navbar-searchbar{
-          display:none !important;
-          }        
+        @media (max-width: 780px) {
+        .navbar-logo{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        width:100vw;
+        height:100%;
         }
-        
+          .navbar-tags {
+            display: none !important;
+          }
+          .navbar-about {
+            display: none !important;
+          }
+          .navbar-searchbar {
+            display: none !important;
+          }
+        }
+        .navbar-tags:hover {
+          transition: 0.2s;
+          color: white !important;
+        }
+        .navbar-about:hover {
+          transition: 0.2s;
+          color: white !important;
+        }
+        .navbar-box-home:hover {
+          color: white !important;
+          cursor: pointer;
+        }
+        .navbar-box-about:hover {
+          color: white !important;
+          cursor: pointer;
+        }
+        .navbar-box-tags:hover {
+          color: white !important;
+          cursor: pointer;
+        }
       `}</style>
       <Box
-        style={{  zIndex: 1 ,backgroundColor: "rgba(0,0,0,.5)"}}
+        style={{ zIndex: 1, backgroundColor: "rgba(0,0,0,.5)" }}
         className="navbar-navbar"
         w="100vw"
         h="60px"
         display="flex"
         position="fixed"
       >
-        
         {/* side box */}
         <Box
+          transition=".3s"
+          color="#ccc"
           className="navbar-box"
           ref={boxRef}
           w="350px"
@@ -124,85 +147,152 @@ const NavBar: React.FC<{}> = () => {
           display="flex"
           flexDirection="column"
           style={{
-            transition: ".5s", borderRight: "1px solid #333", backgroundColor: "rgba(10,10,10,.9)",
-            zIndex:5
-            
+            transition: ".5s",
+            borderRight: "1px solid #333",
+            backgroundColor: "rgba(10,10,10,.9)",
+            zIndex: 5,
           }}
         >
           {/* close box */}
-          <Box style={{ color: "#fff" }} display="flex" justifyContent="center" flexDirection="column"  mt="10px" borderRadius="5px"
+          <Box
+            display="flex"
+            justifyContent="center"
+            flexDirection="column"
+            mt="10px"
+            borderRadius="5px"
           >
             <Box h="50px">
-              <Box display="flex"  justifyContent="flex-end" cursor="pointer">
-                          <Box
-          ref={boxButton}
-          style={{transition:"1s !important"}}
-          w="50px" h="50px"  onClick={handleMenu} cursor="pointer"
-          left="25px">
-                  <Box w="30px" h="4px" style={{
-                    backgroundColor: "#eee", 
-                    transform: "rotate(45deg)",
-                    transformOrigin: "left",
-                    position: 'absolute',
-                    marginLeft: '10px',
-                    marginTop: "10px",
-                    borderRadius:"10px"
-                  }} />
-                  <Box w="30px" h="4px" style={{
-                    backgroundColor: "#eee", 
-                    transform: "rotate(-45deg)",
-                    transformOrigin: "right",
-                    position: 'absolute',
-                    marginTop: "10px",
-                    marginLeft: "1px",
-                    borderRadius: "10px",
-                  }} />
-        </Box>
-                     </Box>
-                 </Box>
+              <Box display="flex" justifyContent="flex-end" cursor="pointer">
+                <Box
+                  ref={boxButton}
+                  style={{ transition: "1s !important" }}
+                  w="50px"
+                  h="50px"
+                  onClick={handleMenu}
+                  cursor="pointer"
+                  left="25px"
+                >
+                  <Box
+                    w="30px"
+                    h="4px"
+                    style={{
+                      backgroundColor: "#eee",
+                      transform: "rotate(45deg)",
+                      transformOrigin: "left",
+                      position: "absolute",
+                      marginLeft: "10px",
+                      marginTop: "10px",
+                      borderRadius: "10px",
+                    }}
+                  />
+                  <Box
+                    w="30px"
+                    h="4px"
+                    style={{
+                      backgroundColor: "#eee",
+                      transform: "rotate(-45deg)",
+                      transformOrigin: "right",
+                      position: "absolute",
+                      marginTop: "10px",
+                      marginLeft: "1px",
+                      borderRadius: "10px",
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Box>
           </Box>
           {/* BOX1 */}
           {/* home */}
-          <Box style={{ color: "#fff" , opacity:1}} display="flex" justifyContent="center" flexDirection="column" backgroundColor="brown" mt="10px" borderRadius="5px">
-            <Box h="50px" onClick={handleMenu}>
+          <Box
+            display="flex"
+            w="90%"
+            justifyContent="center"
+            flexDirection="column"
+            backgroundColor="#333"
+            mt="10px"
+            borderRadius="5px"
+            alignSelf="center"
+          >
+            <Box
+              className="navbar-box-home"
+              h="50px"
+              onClick={handleMenu}
+              display="flex"
+              justifyContent="flex-start"
+              alignItems="center"
+            >
               <NextLink href="/">
-                <Box >
+                <Box w="100%" p="5px">
                   Home
-                     </Box>
-                   </NextLink>
-                 </Box>
+                </Box>
+              </NextLink>
+            </Box>
           </Box>
           {/* BOX2 */}
           {/* tags */}
           <Box
-            display="flex" justifyContent="center" flexDirection="column" backgroundColor="brown" mt="10px" borderRadius="5px" >
+            display="flex"
+            justifyContent="center"
+            flexDirection="column"
+            backgroundColor="#333"
+            mt="10px"
+            borderRadius="5px"
+            w="90%"
+            alignSelf="center"
+          >
             <NextLink href="/tags">
-            <Box style={{ color: "#fff" }} h="50px" borderBottom="1px solid #333" onClick={handleMenu}>
+              <Box
+                className="navbar-box-tags"
+                h="50px"
+                borderBottom="1px solid #000"
+                onClick={handleMenu}
+                display="flex"
+                justifyContent="flex-start"
+                alignItems="center"
+                p="5px"
+              >
                 TAGS
-          </Box>
+              </Box>
             </NextLink>
             {/* about */}
             <NextLink href="/about">
-            <Box className="navbar-box-about" h="50px" borderBottom="1px solid #333" style={{ color: "#fff" }}>
+              <Box
+                className="navbar-box-about"
+                h="50px"
+                onClick={handleMenu}
+                borderBottom="1px solid #000"
+                display="flex"
+                justifyContent="flex-start"
+                alignItems="center"
+                p="5px"
+              >
                 ABOUT
-          </Box>
-                </NextLink>
-          <Box className="navbar-box-searchbar" h="50px">
-            <form onSubmit={handleKeyPress}>
-              <input                
-                type="text"
+              </Box>
+            </NextLink>
+            <Box
+              className="navbar-box-searchbar"
+              h="50px"
+              style={{ display: "flex", justifyContent: "flex-start" }}
+            >
+              <form
+                onSubmit={handleKeyPress}
+                style={{ alignSelf: "center", opacity: ".5" }}
+              >
+                <input
+                  type="text"
                   name="value"
                   onChange={(e) => setKeyValue(e.target.value)}
-              onSubmit={handleKeyPress}
-              placeholder="🔍"
+                  onSubmit={handleKeyPress}
+                  placeholder="🔍"
                   style={{
-                    margin:"0 auto",
-                outline: "none",
-                textIndent: "5px",
-                height: "30px",
-                fontSize: "15px",
-              }}
-              ></input>
+                    margin: "0 auto",
+                    outline: "none",
+                    textIndent: "5px",
+                    height: "30px",
+                    fontSize: "15px",
+                  }}
+                ></input>
               </form>
             </Box>
           </Box>
@@ -210,47 +300,98 @@ const NavBar: React.FC<{}> = () => {
         {/* side box button */}
         <Box
           ref={boxButton}
-          style={{transition:"1s !important"}}
-          w="50px" h="50px"  onClick={handleMenu} cursor="pointer"
+          style={{ transition: "1s !important" }}
+          w="50px"
+          h="50px"
+          onClick={handleMenu}
+          cursor="pointer"
           position="absolute"
-          left="25px">
-          <Box w="30px" h="4px" style={{backgroundColor:"#eee",borderRadius:"5px" ,padding:"2px" ,marginTop:"18px",marginLeft:"1px"}}/>
-          <Box w="30px" h="4px" style={{backgroundColor:"#eee",borderRadius:"5px" ,padding:"2px" ,marginTop:"5px",marginLeft:"1px"}}/>
-          <Box w="30px" h="4px" style={{backgroundColor:"#eee",borderRadius:"5px" ,padding:"2px" ,marginTop:"5px",marginLeft:"1px"}}/>
+          left="25px"
+        >
+          <Box
+            w="30px"
+            h="4px"
+            style={{
+              backgroundColor: "#eee",
+              borderRadius: "5px",
+              padding: "2px",
+              marginTop: "18px",
+              marginLeft: "1px",
+            }}
+          />
+          <Box
+            w="30px"
+            h="4px"
+            style={{
+              backgroundColor: "#eee",
+              borderRadius: "5px",
+              padding: "2px",
+              marginTop: "5px",
+              marginLeft: "1px",
+            }}
+          />
+          <Box
+            w="30px"
+            h="4px"
+            style={{
+              backgroundColor: "#eee",
+              borderRadius: "5px",
+              padding: "2px",
+              marginTop: "5px",
+              marginLeft: "1px",
+            }}
+          />
         </Box>
-        <Box className="navbar-logo" style={{ cursor: "pointer", color: "#fff" }} m="auto">
+
+        {/* logo */}
+        <Box className="navbar-logo" m="auto">
           <NextLink href="/">
-            <PseudoBox display="flex" onMouseEnter={handleRotate} userSelect="none">
+            <PseudoBox
+              display="flex"
+              onMouseEnter={handleRotate}
+              userSelect="none"
+              cursor="pointer"
+            >
               <img ref={img} src="/logo.png" style={{ width: "30px" }} />
               <Box color="white">wooo's blog</Box>
-            </PseudoBox >
+            </PseudoBox>
           </NextLink>
         </Box>
-        <Box ref={tagRef} className="navbar-tags" display="flex" justifyContent="space-evenly" margin="auto">
-          <Box  style={{ color: "#fff" }} m="auto" mr="10%" minWidth="100px">
+        <Box
+          ref={tagRef}
+          display="flex"
+          justifyContent="space-evenly"
+          margin="auto"
+        >
+          <Box className="navbar-tags" m="auto" mr="10%" minWidth="100px">
             <NextLink href="/tags">TAGS</NextLink>
           </Box>
-          <Box ref={aboutRef} className="navbar-about" style={{ color: "#fff" }} m="auto" mr="10%" minWidth="100px">
+          <Box
+            ref={aboutRef}
+            className="navbar-about"
+            m="auto"
+            mr="10%"
+            minWidth="100px"
+          >
             <NextLink href="/about">ABOUT</NextLink>
           </Box>
           <Box m="auto" ref={searchRef} className="navbar-searchbar">
             <form onSubmit={handleKeyPress}>
               <input
-                
                 type="text"
-                  name="value"
-                  onChange={(e)=>setKeyValue(e.target.value)}
-              onSubmit={handleKeyPress}
-              placeholder="🔍"
-              style={{
-                outline: "none",
-                width: "7vw",
-                textIndent: "5px",
-                height: "30px",
-                fontSize: "15px",
-              }}
+                name="value"
+                onChange={(e) => setKeyValue(e.target.value)}
+                onSubmit={handleKeyPress}
+                placeholder="🔍"
+                style={{
+                  outline: "none",
+                  width: "7vw",
+                  textIndent: "5px",
+                  height: "30px",
+                  fontSize: "15px",
+                }}
               ></input>
-              </form>
+            </form>
           </Box>
         </Box>
         {data?.me ? (
@@ -268,7 +409,7 @@ const NavBar: React.FC<{}> = () => {
                 cursor="pointer"
               >
                 R
-            </Button>
+              </Button>
             </NextLink>
             <NextLink href="newPost">
               <Button
@@ -283,7 +424,7 @@ const NavBar: React.FC<{}> = () => {
                 cursor="pointer"
               >
                 N
-            </Button>
+              </Button>
             </NextLink>
             <Button
               p="fixed"
@@ -298,11 +439,11 @@ const NavBar: React.FC<{}> = () => {
               cursor="pointer"
             >
               L
-          </Button>
-            </Box>
+            </Button>
+          </Box>
         ) : (
-            "ㅤ"
-          )}
+          "ㅤ"
+        )}
       </Box>
     </>
   )

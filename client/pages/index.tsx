@@ -1,10 +1,9 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useMeQuery, usePostsQuery } from "../generated/graphql"
 import NextLink from "next/link"
 import { withApollo } from "../utils/withApollo"
 import { Box,  Image, Link } from "@chakra-ui/core"
 import EditDeleteButtons from "../components/EditDeleteButtons"
-import imagesLoaded from 'imagesloaded'
 
 interface homeProps { }
 
@@ -15,12 +14,18 @@ export interface RequestInfo {
 const Home: React.FC<{}> = () => {
   const { data, loading } = usePostsQuery()
   const me = useMeQuery()
+  const [vh, setVh] = useState(1000);
+  const imgRef = useRef();
 
-  let vh;
   useEffect(() => {
-    vh = window.innerHeight * 0.01;
+    setVh(window.innerHeight * 0.01)
+    window.addEventListener('resize', () => {
+      setVh(window.innerHeight * 0.01)
+    })
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-  },)
+    console.log(vh)
+    if(imgRef.current) imgRef.current.style.height = vh*100 + 'px';
+  },[vh])
   if (!loading && !data) {
     return <div>sorry, somthing happend</div>
   }
@@ -134,6 +139,7 @@ const Home: React.FC<{}> = () => {
         flexDirection="column"
       >
         <Box
+          ref={imgRef}
           className="index-mainImg"
           backgroundAttachment="fixed"
           backgroundSize="cover"
