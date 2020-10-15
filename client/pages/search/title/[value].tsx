@@ -1,52 +1,33 @@
-import React, { useEffect } from "react"
-import { useMeQuery, usePostsQuery } from "../generated/graphql"
-import NextLink from "next/link"
-import { withApollo } from "../utils/withApollo"
-import { Box,  Image, Link } from "@chakra-ui/core"
-import EditDeleteButtons from "../components/EditDeleteButtons"
-import imagesLoaded from 'imagesloaded'
+import { Box } from "@chakra-ui/core"
+import  Router,{useRouter}  from "next/router"
+import React, { useEffect, useState } from "react"
+import NextLink from 'next/link'
+import { FindPostsInTitleDocument, useFindPostsInTitleQuery, useMeQuery } from "../../../generated/graphql"
+import { withApollo } from "../../../utils/withApollo"
+import EditDeleteButtons from "../../../components/EditDeleteButtons"
 
-interface homeProps { }
+interface searchProps { }
 
-export interface RequestInfo {
-  data: string
-}
+// const getParams()
 
-const Home: React.FC<{}> = () => {
-  const { data, loading } = usePostsQuery()
-  const me = useMeQuery()
+const searchTitle: React.FC<{}> = () => {
+    const router = useRouter();
+    const me = useMeQuery()
+    const [val, setVal] = useState("");
+    const {data,loading} = useFindPostsInTitleQuery({
+        variables:{title:val}
+    });
+    const ME = me.data?.me
+    useEffect(() => {
+        console.log(data)
+        if (router.query.value) {
+            setVal(router.query.value as string)
+        }
+        
+    })
+    
 
-  let vh;
-  useEffect(() => {
-    vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  },)
-  if (!loading && !data) {
-    return <div>sorry, somthing happend</div>
-  }
-  const ME = me.data?.me
-
-  const renderGreeting = () => {
-    const hour = new Date().getHours()
-    const minute = new Date().getMinutes()
-    const time = hour * 60 + minute;
-    if (time >= 1230 ||  time < 330) {
-      return '좋은 밤입니다.'
-    } else if (time >=330 && time < 660) {
-      return '좋은 아침입니다.'
-    } if (time >= 660 && time < 780) {
-      return '좋은 점심입니다.'
-    } else if (time >= 780 && time < 1050) {
-      return '좋은 오후입니다.'
-    } else if (time >= 1050 && time < 1230) {
-      return '좋은 저녁입니다.'
-    }
-    return '좋은 하루입니다.'
-  }
-
-
-  
-  useEffect(() => {
+    useEffect(() => {
     setTimeout(() => {
         let allItems
         //
@@ -80,16 +61,13 @@ const Home: React.FC<{}> = () => {
 
 
 
-  return data?.posts ? (
+    return data?.findPostsInTitle? (
     <>
       <style jsx global>{`
         .index-card:hover{
             opacity: 1 !important;
             color:white;
             transition: .5s;
-        }
-        .index-greeting{
-            font-family: 'Noto Serif KR', serif;
         }
         .index-thumbnail{
             opacity: 1 !important;
@@ -133,28 +111,11 @@ const Home: React.FC<{}> = () => {
         alignItems="center"
         flexDirection="column"
       >
-        <Box
-          className="index-mainImg"
-          backgroundAttachment="fixed"
-          backgroundSize="cover"
-          backgroundPosition="center"
-          backgroundRepeat="no-repeat"
-          backgroundImage="url('/main.jpg')"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"        
-          w="100vw"
-          mb="300px"
-          userSelect="none"
-          style={{ height: 'calc(var(--vh,1vh)*100)', opacity: .9 }}
-          top="0px"
-          // position="absolute"
-        >
-          <Box className="index-greeting"
-            style={{ opacity: 1, fontSize:'2em' ,color:"#999"}}>
-              {renderGreeting()}
-          </Box>
-        </Box>
+                <Box mt="200px" mb="200px">
+                    검색어: {val}<br/>
+                    검색결과: {data.findPostsInTitle.length}개
+                </Box>
+                
         <Box
           className="grid"
           w="100%"
@@ -165,11 +126,9 @@ const Home: React.FC<{}> = () => {
             gridGap: "10px",
             gridTemplateColumns: 'repeat(auto-fill,32%)',
             gridAutoRows: "40px",
-
-            
           }}
-        >
-          {data.posts.map((post) => (
+                >
+          {data.findPostsInTitle.map((post) => (
             <Box
               className="index-card item"
               borderRadius="5px"
@@ -234,5 +193,4 @@ const Home: React.FC<{}> = () => {
       <div></div>
     )
 }
-
-export default withApollo({ ssr: true })(Home)
+export default withApollo({ ssr: false })(searchTitle)

@@ -1,6 +1,7 @@
 import { Box, Button, ThemeProvider } from "@chakra-ui/core"
 import Head from "next/head"
 import React, { useEffect, useRef, useState } from "react"
+import Auth from "../components/Auth"
 import Footer from "../components/Footer"
 import NavBar from "../components/NavBar"
 import "../styles/globals.css"
@@ -72,11 +73,13 @@ function MyApp({ Component, pageProps }) {
       >
         <NavBar />
         <style jsx global>{`
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&display=swap');
        a, article, aside, audio, blockquote, body, button, canvas, code, div, em, embed, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, html, i, iframe, img, input, ins, kbd, label, legend, li, main, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strong, summary, sup, table, tbody, td, textarea, time, ul, video 
        {
-       font-family: 'Noto Serif KR', serif;
+       font-family: 'Noto Sans KR', sans-serif;
        scroll-behavior: smooth;
+       font-weight: 300;
        margin:0;
        padding:0;
        }
@@ -100,7 +103,8 @@ body::-webkit-scrollbar-thumb {
       }
 
       `}</style>
-        <Component {...pageProps} />
+        <Auth/>
+          <Component {...pageProps} />
         <Footer />
       </Box>
     </ThemeProvider>

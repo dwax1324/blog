@@ -10,7 +10,7 @@ import {
 } from "type-graphql"
 import { Tag } from "../entities/Tag"
 import { TagPost } from "../entities/TagPost"
-import { getTreeRepository } from "typeorm"
+import { Any, getTreeRepository, Like, Not } from "typeorm"
 
 @InputType()
 class postInput {
@@ -29,9 +29,25 @@ export class TagPostResolver {
   async posts() {
     return Post.find({
       order: {
-        createdAt:"DESC"
-      }
+        createdAt: "DESC",
+      },
     })
+  }
+
+  //find posts by title
+
+  @Query(() => [Post])
+  async findPostsInTitle(
+  @Arg("title",()=>String) title:string
+  ) {
+    if (title.length < 2) throw new Error("lenght should be longer than 2")
+    const posts = await Post.createQueryBuilder()
+     .where("LOWER(title) LIKE :title", { title: `%${ title.toLowerCase() }%` })
+      .getMany();
+    return posts
+    // return Post.find({
+    //   title:Like(`%${title}%`)
+    // })
   }
   //read all tags
   @Query(() => [Tag])

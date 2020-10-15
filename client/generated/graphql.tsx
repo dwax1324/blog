@@ -18,9 +18,15 @@ export type Query = {
   hello: Scalars['String'];
   me: Scalars['Boolean'];
   posts: Array<Post>;
+  findPostsInTitle: Array<Post>;
   tags: Array<Tag>;
   post?: Maybe<Post>;
   tag?: Maybe<Tag>;
+};
+
+
+export type QueryFindPostsInTitleArgs = {
+  title: Scalars['String'];
 };
 
 
@@ -224,6 +230,23 @@ export type UpdatePostMutation = (
     { __typename?: 'Post' }
     & RegularDetailsFragment
   ) }
+);
+
+export type FindPostsInTitleQueryVariables = Exact<{
+  title: Scalars['String'];
+}>;
+
+
+export type FindPostsInTitleQuery = (
+  { __typename?: 'Query' }
+  & { findPostsInTitle: Array<(
+    { __typename?: 'Post' }
+    & { tags?: Maybe<Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'id' | 'text'>
+    )>> }
+    & RegularDetailsFragment
+  )> }
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -599,6 +622,43 @@ export function useUpdatePostMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdatePostMutationHookResult = ReturnType<typeof useUpdatePostMutation>;
 export type UpdatePostMutationResult = Apollo.MutationResult<UpdatePostMutation>;
 export type UpdatePostMutationOptions = Apollo.BaseMutationOptions<UpdatePostMutation, UpdatePostMutationVariables>;
+export const FindPostsInTitleDocument = gql`
+    query FindPostsInTitle($title: String!) {
+  findPostsInTitle(title: $title) {
+    ...RegularDetails
+    tags {
+      id
+      text
+    }
+  }
+}
+    ${RegularDetailsFragmentDoc}`;
+
+/**
+ * __useFindPostsInTitleQuery__
+ *
+ * To run a query within a React component, call `useFindPostsInTitleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindPostsInTitleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindPostsInTitleQuery({
+ *   variables: {
+ *      title: // value for 'title'
+ *   },
+ * });
+ */
+export function useFindPostsInTitleQuery(baseOptions?: Apollo.QueryHookOptions<FindPostsInTitleQuery, FindPostsInTitleQueryVariables>) {
+        return Apollo.useQuery<FindPostsInTitleQuery, FindPostsInTitleQueryVariables>(FindPostsInTitleDocument, baseOptions);
+      }
+export function useFindPostsInTitleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindPostsInTitleQuery, FindPostsInTitleQueryVariables>) {
+          return Apollo.useLazyQuery<FindPostsInTitleQuery, FindPostsInTitleQueryVariables>(FindPostsInTitleDocument, baseOptions);
+        }
+export type FindPostsInTitleQueryHookResult = ReturnType<typeof useFindPostsInTitleQuery>;
+export type FindPostsInTitleLazyQueryHookResult = ReturnType<typeof useFindPostsInTitleLazyQuery>;
+export type FindPostsInTitleQueryResult = Apollo.QueryResult<FindPostsInTitleQuery, FindPostsInTitleQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me

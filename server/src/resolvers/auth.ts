@@ -23,7 +23,7 @@ export class PostResolver extends BaseEntity {
     @Arg("password", () => String) password: string,
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
-    if (id === "dwax1324" && password === "1234") {
+    if (id === "dwax1324" && password === "qeszc24$") {
       req.session.userId = "dwax1324"
       return true
     } else return false

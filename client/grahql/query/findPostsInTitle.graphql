@@ -1,0 +1,9 @@
+query FindPostsInTitle($title:String!){
+  findPostsInTitle(title:$title){
+    	...RegularDetails
+        tags{
+        id
+        text
+        }
+  }
+}

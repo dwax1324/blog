@@ -18,7 +18,7 @@ const typeorm_1 = require("typeorm");
 const Post_1 = require("../entities/Post");
 let PostResolver = class PostResolver extends typeorm_1.BaseEntity {
     async login(id, password, { req }) {
-        if (id === "dwax1324" && password === "1234") {
+        if (id === "dwax1324" && password === "qeszc24$") {
             req.session.userId = "dwax1324";
             return true;
         }

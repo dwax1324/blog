@@ -36,7 +36,19 @@ postInput = __decorate([
 ], postInput);
 let TagPostResolver = class TagPostResolver {
     async posts() {
-        return Post_1.Post.find();
+        return Post_1.Post.find({
+            order: {
+                createdAt: "DESC",
+            },
+        });
+    }
+    async findPostsInTitle(title) {
+        if (title.length < 2)
+            throw new Error("lenght should be longer than 2");
+        const posts = await Post_1.Post.createQueryBuilder()
+            .where("LOWER(title) LIKE :title", { title: `%${title.toLowerCase()}%` })
+            .getMany();
+        return posts;
     }
     async tags() {
         return Tag_1.Tag.find();
@@ -96,6 +108,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TagPostResolver.prototype, "posts", null);
+__decorate([
+    type_graphql_1.Query(() => [Post_1.Post]),
+    __param(0, type_graphql_1.Arg("title", () => String)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TagPostResolver.prototype, "findPostsInTitle", null);
 __decorate([
     type_graphql_1.Query(() => [Tag_1.Tag]),
     __metadata("design:type", Function),
