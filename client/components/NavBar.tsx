@@ -39,9 +39,8 @@ const NavBar: React.FC<{}> = () => {
     img.current.style.transition = ".4s"
     img.current.style.transform = "rotate(20deg)"
     setTimeout(() => {
-
       img.current.style.transform = "rotate(0deg)"
-    }, 400);
+    }, 800)
   }
   const handleMenu = () => {
     console.log(opened)

@@ -29,33 +29,41 @@ const searchTitle: React.FC<{}> = () => {
 
     useEffect(() => {
     setTimeout(() => {
-        let allItems
-        //
-    function resizeGridItem(item) {
-    let grid = document.getElementsByClassName("grid")[0];
-    let rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
-    let rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
-    let rowSpan = Math.ceil((item.querySelector('.content').getBoundingClientRect().height+rowGap)/(rowHeight+rowGap));
-    item.style.gridRowEnd = "span "+rowSpan;
-    }
-        allItems = document.getElementsByClassName("item");
-        //
-    function resizeAllGridItems(){
-      allItems = document.getElementsByClassName("item");
-    for(let x=0;x<allItems.length;x++){
-        resizeGridItem(allItems[x]);
-    }
-  }
-    // for (let x = 0; x < allItems.length; x++) {
-    //   imagesLoaded(allItems[x], resizeInstance);
-    // }
-  function resizeInstance(instance){
-   let item = instance.elements[0];
-   resizeGridItem(item);
-  }
-  window.onload = resizeAllGridItems() as any
-  window.addEventListener("resize", resizeAllGridItems);      
-  }, 400);
+      let allItems
+      //
+      function resizeGridItem(item) {
+        let grid = document.getElementsByClassName("grid")[0]
+        let rowHeight = parseInt(
+          window.getComputedStyle(grid).getPropertyValue("grid-auto-rows")
+        )
+        let rowGap = parseInt(
+          window.getComputedStyle(grid).getPropertyValue("grid-row-gap")
+        )
+        let rowSpan = Math.ceil(
+          (item.querySelector(".content").getBoundingClientRect().height +
+            rowGap) /
+            (rowHeight + rowGap)
+        )
+        item.style.gridRowEnd = "span " + rowSpan
+      }
+      allItems = document.getElementsByClassName("item")
+      //
+      function resizeAllGridItems() {
+        allItems = document.getElementsByClassName("item")
+        for (let x = 0; x < allItems.length; x++) {
+          resizeGridItem(allItems[x])
+        }
+      }
+      // for (let x = 0; x < allItems.length; x++) {
+      //   imagesLoaded(allItems[x], resizeInstance);
+      // }
+      function resizeInstance(instance) {
+        let item = instance.elements[0]
+        resizeGridItem(item)
+      }
+      window.onload = resizeAllGridItems() as any
+      window.addEventListener("resize", resizeAllGridItems)
+    }, 800)
 
   },[])
 
