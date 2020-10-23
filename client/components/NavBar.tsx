@@ -62,6 +62,14 @@ const NavBar: React.FC<{}> = () => {
     window.addEventListener('resize', () => {
       setWidth(window.innerWidth);
     })
+    document.addEventListener('click',(e)=>{
+        if(opened && e.screenX > 350){
+          console.log(1)
+          setOpened(false)
+          boxRef.current.style.transform = "translate3d(-350px,0,0)"
+          boxButton.current.style.display = "block";
+        }
+    })
     setWidth(window.innerWidth)
   },)
   const handleKeyPress = async (e) => {
