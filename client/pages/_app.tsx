@@ -23,10 +23,12 @@ function MyApp({ Component, pageProps }) {
     if (dark === 'dark') {
       color.current.style.backgroundColor = "#111"
       color.current.style.color = "#aaa"
+      document.getElementsByTagName('html')[0].style.backgroundColor="#111"
     }
     else if (dark === 'light') {
       color.current.style.backgroundColor = "#fff"
       color.current.style.color = "#000"
+      document.getElementsByTagName('html')[0].style.backgroundColor="#fff"
     }
 
   }, [dark])
