@@ -133,5 +133,5 @@ database쪽 지식을 좀 쌓아야겠다..
 분명히 리액트를 기반으로한 nextjs인데.. 원래 그런가? 엄청 해매다가   
 dynamic link(변수있는 주소)를 쓸 때만 약간의 새로고침이 되었다.  
 link를 쓸 때 as를 안쓰고 그냥 바로 변수주소로 넣으니까 해결됐다.  
-이제 좀 single application page같당..  
+이제 좀 single application page같당...  
 이제 좀 볼만한 듯
