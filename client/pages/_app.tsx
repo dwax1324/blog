@@ -1,7 +1,6 @@
 import { Box, Button, ThemeProvider } from "@chakra-ui/core"
 import Head from "next/head"
 import React, { useEffect, useRef, useState } from "react"
-import Auth from "../components/Auth"
 import Footer from "../components/Footer"
 import NavBar from "../components/NavBar"
 import "../styles/globals.css"
@@ -105,7 +104,6 @@ body::-webkit-scrollbar-thumb {
       }
 
       `}</style>
-        <Auth/>
           <Component {...pageProps} />
         <Footer />
       </Box>
