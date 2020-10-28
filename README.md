@@ -92,7 +92,7 @@ pagination, search, tags , about ,footer,
 
 태그 추가
 
-굉장히 고생 many to many relationship을 typeorm에서 구현하기가 빡센거같음..
+굉장히 고생 many to many relationship을 typeorm에서 구현하기가 빡센거같음...
 
 typeorm+postgresql로 하다가 외래키, join, orm사용법 등등으로 몇 시간씩 잡아먹는다
 
