@@ -15,7 +15,7 @@ backend는 헤로쿠 , frontend는 깃헙페이지의 서비스를 이용함.
 
 ## _2020-09-22_
 
-strapi를 nodejs로 바꾸었다.
+strapi를 nodejs로 바꾸었다..
 strapi도 충분히 좋았지만
 데이터가 있는 페이지 로딩이 꽤나 오래걸려서 이게 헤로쿠문제인지
 strapi문제인지 몰라서 일단 공부도 할겸 nodejs로 바꾸었다.
